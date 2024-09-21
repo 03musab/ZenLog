@@ -1,0 +1,80 @@
+/* General Body Styling */
+body {
+    background-color: #f4f6f9;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header Section */
+.track-mood-header {
+    background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
+    color: #fff;
+    padding: 60px 0;
+}
+
+.track-mood-header h1 {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.track-mood-header p {
+    font-size: 1.2rem;
+    margin-top: 15px;
+}
+.btn-back {
+    background-color: #fa564a;
+    color: #000000;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+  }
+  .btn-back:hover {
+    background-color: #fa9797;
+  }
+  .activities-header {
+    background-color: #4e54c8;
+    color: #fff;
+    padding: 40px 0;
+}
+
+.activity-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.activity-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary {
+    background-color: #6c757d;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #5a6268;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+}
+
+.btn-info:hover {
+    background-color: #117a8b;
+}
+
+.btn-warning:hover {
+    background-color: #d39e00;
+}
+
+footer {
+    background-color: #343a40;
+    color: white;
+}
+
+footer p {
+    margin: 0;
+}

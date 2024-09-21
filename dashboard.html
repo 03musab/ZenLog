@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ZenLog Dashboard</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="dashboard.css" />
+    <style>
+      /* Additional custom styles */
+      .dashboard-header {
+        position: relative;
+        background-color: #343a40;
+        color: #ffffff;
+        padding: 60px 0;
+      }
+      .dashboard-header {
+        background: linear-gradient(10deg, #29f816,#000000, #4400ff);
+        color: #fff;
+        padding: 60px 0;
+    }
+      .logout-btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background-color: #fa564a;
+        color: #000000;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .btn-primary {
+        background-color: #c84e4e;
+        border: none;
+    }
+      .logout-btn:hover {
+        background-color: #fa9797;
+      }
+      .footer-links a {
+        color: #ffffff;
+        text-decoration: none;
+        margin: 0 10px;
+        font-weight: bold;
+      }
+      .footer-links a:hover {
+        text-decoration: underline;
+      }
+      /* Hover animation for Insights Section cards */
+.insights-section .card {
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .insights-section .card:hover {
+    background-color: #000000; /* Change to your preferred hover color */
+    transform: translateY(-5px); /* Slight lift on hover */
+  }
+  
+  /* Optional: Add hover effect for the card title and text */
+  .insights-section .card:hover .card-title,
+  .insights-section .card:hover .card-text {
+    color: #ff0000; /* Change text color on hover */
+  }
+  
+    </style>
+  </head>
+  <body>
+    <!-- Dashboard Header -->
+    <header class="dashboard-header text-center py-5">
+      <h1>Welcome to Your ZenLog Dashboard</h1>
+      <p class="lead">
+        Track your mood, gain insights, and improve your mental well-being.
+      </p>
+      <button class="logout-btn" onclick="window.location.href='logout.php';">
+        Logout
+      </button>
+    </header>
+
+    <!-- Dashboard Features Section -->
+    <section class="container dashboard-features my-5">
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="card feature-card shadow-sm">
+            <div class="card-body">
+              <h4 class="card-title">Mood Tracker</h4>
+              <p class="card-text">
+                Log your daily moods and track emotional patterns over time.
+              </p>
+              <a href="track-mood.html" class="btn btn-primary">Track Mood</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card feature-card shadow-sm">
+            <div class="card-body">
+              <h4 class="card-title">Mindful Activities</h4>
+              <p class="card-text">
+                Engage in guided mindfulness exercises to relieve stress.
+              </p>
+              <a href="activities.html" class="btn btn-success">Start Activities</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card feature-card shadow-sm">
+            <div class="card-body">
+              <h4 class="card-title">Sleep Tracker</h4>
+              <p class="card-text">
+                Monitor your sleep patterns to improve overall mental health.
+              </p>
+              <a href="tracker.html" class="btn btn-info">Track Sleep</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Insights Section -->
+    <section class="container my-5 insights-section">
+      <h2 class="text-center mb-4">Insights & Analytics</h2>
+      <div class="row g-4">
+        <div class="col-md-6">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">Mood Trends</h5>
+              <p class="card-text">
+                Analyze your mood over the past week or month.
+              </p>
+              <div id="moodChart" style="height: 50px"></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">Weekly Progress</h5>
+              <p class="card-text">
+                See how your mindfulness and sleep habits are improving.
+              </p>
+              <div id="progressChart" style="height: 50px"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="dashboard-footer text-center py-4">
+      <p>&copy; 2024 ZenLog. All Rights Reserved.</p>
+      <div class="footer-links">
+        <a
+          href="#"
+          style="
+            color: #ffffff;
+            text-decoration: none;
+            margin: 0 10px;
+            font-weight: bold;
+          "
+          >Privacy Policy</a
+        >
+        |
+        <a
+          href="#"
+          style="
+            color: #ffffff;
+            text-decoration: none;
+            margin: 0 10px;
+            font-weight: bold;
+          "
+          >Terms of Service</a
+        >
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>   
+  </body>
+</html>

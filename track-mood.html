@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Track Mood - ZenLog</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="track-mood.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      .track-mood-header {
+        background: linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%);
+        color: #fff;
+    padding: 60px 0;
+}
+      
+      /* Footer */
+      .dashboard-footer {
+        background-color: #373a47;
+        color: #fff;
+        padding: 20px;
+      }
+
+      .dashboard-footer a {
+        color: #aaa;
+        text-decoration: none;
+      }
+
+      .dashboard-footer a:hover {
+        color: #fff;
+      }
+      .btn-back {
+        background-color: #fa564a;
+        color: #000000;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+      }
+      .btn-back:hover {
+        background-color: #fa9797;
+      }
+      .footer-links a {
+        color: #ffffff;
+        text-decoration: none;
+        margin: 0 10px;
+        font-weight: bold;
+      }
+      .footer-links a:hover {
+        text-decoration: underline;
+      }
+      .advanced-label {
+        font-weight: bold; /* Makes the text bold */
+        font-size: 1.25rem; /* Increases the font size */
+        color: #333; /* Sets a dark color for better readability */
+        display: block; /* Ensures the label takes up the full width */
+        margin-bottom: 0.5rem; /* Adds space below the label */
+        padding: 0.5rem; /* Adds padding around the text */
+        border: 1px solid #ddd; /* Adds a border around the label */
+        border-radius: 0.25rem; /* Rounds the corners of the border */
+        background-color: #f9f9f9; /* Sets a light background color */
+    }
+    
+    .card-title {
+            font-weight: bold; /* Makes the text bold */
+            font-size: 1.25rem; /* Increases the font size */
+            color: #333; /* Sets a dark color for better readability */
+            display: block; /* Ensures the label takes up the full width */
+            margin-bottom: 0.5rem; /* Adds space below the label */
+            padding: 0.5rem; /* Adds padding around the text */
+            border: 1px solid #ddd; /* Adds a border around the label */
+            border-radius: 0.25rem; /* Rounds the corners of the border */
+            background-color: #f9f9f9; /* Sets a light background color */
+        }
+        #goalList {
+            padding-left: 20px; /* Move the whole list slightly to the right */
+            list-style-position: inside; /* Ensure the numbering is inside the padding */
+        }
+        /* Goal list items styling */
+#goalList li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    list-style-type: none;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+/* Buttons on the right */
+.goal-buttons {
+    display: flex;
+    gap: 10px; /* Adds spacing between the buttons */
+}
+
+/* Style for Achieve and Delete buttons */
+.achieve-btn, .delete-btn {
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #fff;
+}
+
+/* Achieve button style */
+.achieve-btn {
+    background-color: #28a745; /* Green */
+}
+
+/* Delete button style */
+.delete-btn {
+    background-color: #dc3545; /* Red */
+}
+
+/* When a goal is achieved (strikethrough text) */
+.completed {
+    text-decoration: line-through;
+    color: #6c757d; /* Greyish color */
+}
+/* Popup CSS */
+#popup {
+    visibility: hidden;
+    width: 300px;
+    background-color: #28a745;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transition: visibility 0s, opacity 0.5s ease-in-out;
+}
+
+#popup.show {
+    visibility: visible;
+    opacity: 1;
+}
+
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="track-mood-header text-center py-5">
+        
+      <h1>Track Your Mood</h1>
+      <p class="lead">Use the tools below to log and analyze your mood.</p>
+      <div class="container text-center mb-4"></div>
+      <a href="dashboard.html" class="btn btn-back">Back to Dashboard</a>
+  </div>
+    </header>
+   
+
+    <!-- Interactive Mood Scale -->
+    <section class="container mood-scale my-5 text-center">
+      <h2 class="mb-4">Interactive Mood Scale</h2>
+      <div class="mood-slider">
+        <input
+          type="range"
+          class="form-range"
+          id="moodRange"
+          min="1"
+          max="10"
+          step="1"
+          value="5"
+        />
+        <div class="mood-labels">
+          <span>😢</span>
+          <span>😐</span>
+          <span>😊</span>
+          <span>😄</span>
+        </div>
+        <p id="moodValue" class="mt-3">Mood Level: 5</p>
+      </div>
+    </section>
+
+    <!-- Daily Reflections & Triggers -->
+    <section class="container reflections my-5">
+      <h2 class="text-center mb-4">Daily Reflections</h2>
+      <form id="reflectionForm">
+        <div class="mb-3">
+          <label for="moodComments" class="form-label"
+            >Why are you feeling this way today?</label
+          >
+          <textarea
+            class="form-control"
+            id="moodComments"
+            rows="3"
+            placeholder="Share your thoughts..."
+          ></textarea>
+        </div>
+        <div class="mb-3">
+          <label for="moodTriggers" class="form-label">Mood Triggers</label>
+          <select class="form-select" id="moodTriggers">
+            <option selected>Select a trigger...</option>
+            <option value="1">Work</option>
+            <option value="2">Family</option>
+            <option value="3">Relationships</option>
+            <option value="4">Sleep</option>
+            <option value="5">Physical Health</option>
+          </select>
+        </div>
+        <button type="button" class="btn btn-primary" id="submitReflection">
+          Submit Reflection
+        </button>
+      </form>
+    </section>
+
+    <!-- Mood Over Time Visualization -->
+    <section class="container my-5">
+      <h2 class="text-center mb-4">Mood Over Time</h2>
+      <div class="row">
+        <div class="col-md-12">
+          <canvas id="moodChart"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mood Check-In Widget -->
+    <!-- Quick Mood Check-In -->
+<section class="container text-center my-5">
+    <h2 class="mb-4">Quick Mood Check-In</h2>
+    <button class="btn btn-info btn-lg" data-bs-toggle="modal" data-bs-target="#moodCheckInModal">Log Mood</button>
+</section>
+<!-- Quick Mood Check-In Modal -->
+<div class="modal fade" id="moodCheckInModal" tabindex="-1" aria-labelledby="moodCheckInModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="moodCheckInModalLabel">Log Your Mood</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="moodCheckInForm">
+            <!-- Questions will be injected here dynamically -->
+            <div id="questions-container"></div>
+            <button type="submit" class="btn btn-primary mt-3">Submit Mood</button>
+          </form>
+          <p id="moodResult" class="mt-3"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Mood Goals -->
+<section class="container my-5">
+    <h2 class="text-center mb-4">Mood Goals</h2>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Your Goals</h5>
+                    <div id="goals-container" class="row">
+                        <ul id="goalList"></ul>
+                        <!-- Goals will be inserted here by JavaScript -->
+                    </div>
+                    <form id="goalForm">
+                        <div class="mb-3">
+                            <label for="goalDescription" class="form-label advanced-label">Enter New Goal</label>
+                            <input type="text" class="form-control" id="goalDescription" placeholder="Enter your new goal" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Goal</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div id="popup"></div>
+
+<!-- Mood-Based Music or Media Recommendations -->
+<section class="container my-5">
+  <h2 class="text-center mb-4">Mood-Based Recommendations</h2>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Recommended Music for Your Mood</h5>
+          <p class="card-text">
+            Based on your current mood, we recommend the following music or
+            media to enhance your emotional state.
+          </p>
+
+          <!-- Calm Music for Stress -->
+          <h6>Calm Music for Stress</h6>
+          <iframe
+            src="https://open.spotify.com/embed/playlist/37i9dQZF1DWV7EzJMK2FUI"
+            width="100%" height="80" frameborder="0"
+            allowtransparency="true" allow="encrypted-media">
+          </iframe>
+
+          <!-- Upbeat Music for Low Mood -->
+          <h6 class="mt-4">Upbeat Music for Low Mood</h6>
+          <iframe
+            src="https://open.spotify.com/embed/playlist/37i9dQZF1DWYBO1MoTDhZI"
+            width="100%" height="80" frameborder="0"
+            allowtransparency="true" allow="encrypted-media">
+          </iframe>
+
+          <!-- Guided Meditation for Anxiety -->
+          <h6 class="mt-4">Guided Meditation for Anxiety</h6>
+          <iframe
+            src="https://open.spotify.com/embed/playlist/37i9dQZF1DX1tuUiirhaT3"
+            width="100%" height="80" frameborder="0"
+            allowtransparency="true" allow="encrypted-media">
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+    <!-- Footer -->
+    <footer class="dashboard-footer text-center py-4">
+      <p>&copy; 2024 ZenLog. All Rights Reserved.</p>
+      <div class="footer-links">
+        <a
+          href="#"
+          style="
+            color: #ffffff;
+            text-decoration: none;
+            margin: 0 10px;
+            font-weight: bold;
+          "
+          >Privacy Policy</a
+        >
+        |
+        <a
+          href="#"
+          style="
+            color: #ffffff;
+            text-decoration: none;
+            margin: 0 10px;
+            font-weight: bold;
+          "
+          >Terms of Service</a
+        >
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      // Function to fetch mood data and update the chart
+      async function fetchMoodData() {
+        const response = await fetch("get_mood_data.php");
+        const data = await response.json();
+
+        const ctx = document.getElementById("moodChart").getContext("2d");
+        new Chart(ctx, {
+          type: "line",
+          data: {
+            labels: data.labels,
+            datasets: [
+              {
+                label: "Mood Level",
+                data: data.values,
+                backgroundColor: "rgba(78, 84, 200, 0.2)",
+                borderColor: "#4e54c8",
+                borderWidth: 2,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+          },
+        });
+      }
+
+      // Initial fetch of mood data
+      fetchMoodData();
+
+      // Mood Slider
+      var moodRange = document.getElementById("moodRange");
+      var moodValue = document.getElementById("moodValue");
+      moodRange.addEventListener("input", function () {
+        moodValue.textContent = "Mood Level: " + moodRange.value;
+        
+      });
+
+      // Handle reflection form submission
+      document
+        .getElementById("submitReflection")
+        .addEventListener("click", async function () {
+          const moodLevel = document.getElementById("moodRange").value;
+          const moodComments = document.getElementById("moodComments").value;
+          const moodTriggers = document.getElementById("moodTriggers").value;
+
+          const response = await fetch("submit_mood.php", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: new URLSearchParams({
+              mood_level: moodLevel,
+              mood_comments: moodComments,
+              mood_triggers: moodTriggers,
+            }),
+          });
+
+          if (response.ok) {
+            alert(
+              "Mood reflection submitted successfully! Relod the page to update your Mood-Chart :)"
+            );
+            fetchMoodData(); // Refresh the mood chart
+          } else {
+            alert("Error submitting mood reflection.");
+          }
+        });
+    // Add goal
+    document.addEventListener('DOMContentLoaded', function() {
+        const goalForm = document.getElementById('goalForm');
+        const goalDescription = document.getElementById('goalDescription');
+        const goalList = document.getElementById('goalList');
+        const popup = document.getElementById('popup'); // Add reference to the popup element
+    
+        goalForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const goal = goalDescription.value;
+    
+            // Send the goal to the server
+            fetch('add-goal.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `goal=${encodeURIComponent(goal)}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Update the goal list on success
+                    const newGoalItem = document.createElement('li');
+                    newGoalItem.innerHTML = `
+                        <span class="goal-text">${goal}</span>
+                        <div class="goal-buttons">
+                            <button class="achieve-btn">Achieve</button> 
+                            <button class="delete-btn" data-id="${data.goal_id}">Delete</button> 
+                        </div>
+                            <img src="achieved.gif" class="achieved-gif" style="display: none;" alt="Achieved">
+                    `;
+                    goalList.appendChild(newGoalItem);
+    
+                    // Clear the input field
+                    goalDescription.value = '';
+                } else {
+                    alert('Failed to add goal');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    
+        // Achieve and delete buttons functionality
+        goalList.addEventListener('click', function(event) {
+            if (event.target.classList.contains('achieve-btn')) {
+                const goalItem = event.target.closest('li');
+                const goalText = goalItem.querySelector('.goal-text');
+                goalText.classList.toggle('completed'); // Toggle the completed class to add strikethrough
+                const achievedGif = goalItem.querySelector('.achieved-gif');
+
+                achievedGif.style.display = 'block';
+            
+                // Hide the GIF after 2 seconds
+                setTimeout(() => {
+                    achievedGif.style.display = 'none';
+                }, 2200);
+            }
+    
+            if (event.target.classList.contains('delete-btn')) {
+                const goalItem = event.target.closest('li');
+                const goalId = event.target.getAttribute('data-id'); // Get the goal ID
+    
+                // Send the delete request to the server
+                fetch(`delete-goal.php?id=${goalId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            goalList.removeChild(goalItem); // Remove the goal item from the list
+    
+                            // Show the popup notification
+                            popup.textContent = 'Goal deleted successfully!';
+                            popup.classList.add('show');
+    
+                            // Hide the popup after 3 seconds
+                            setTimeout(() => {
+                                popup.classList.remove('show');
+                            }, 4000);
+                        } else {
+                            console.error('Failed to delete goal');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            }
+        });
+    });
+    
+    // Fetch and display goals
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch('fetch-goals.php')
+            .then(response => response.json())
+            .then(data => {
+                const goalsContainer = document.getElementById('goalList');
+                goalsContainer.innerHTML = '';
+    
+                data.forEach((goal) => {
+                    const goalElement = document.createElement('li');
+                    goalElement.innerHTML = `
+                        <span class="goal-text">${goal.goal_description}</span>
+                        <div class="goal-buttons">
+                            <button class="achieve-btn">Achieve</button>
+                            <button class="delete-btn" data-id="${goal.goal_id}">Delete</button> 
+                        </div>
+                        <img src="achieved.gif" class="achieved-gif" style="display: none;" alt="Achieved">
+
+                    `;
+                    goalsContainer.appendChild(goalElement);
+                });
+            })
+            .catch(error => console.error('Error fetching goals:', error));
+    });
+    
+
+        //quiz
+            document.addEventListener('DOMContentLoaded', function () {
+              const questions = [
+"How do you feel about your energy level today?",
+"How was your overall mood throughout the day?",
+"How satisfied are you with your social interactions today?",
+"How do you feel about the amount of stress you experienced today?",
+"How was your productivity today?",
+"How do you feel about your ability to handle challenges today?",
+"How was your emotional well-being today?",
+"How do you feel about your ability to focus today?",
+"How well did you sleep last night?",
+"How positive are you feeling about tomorrow?",
+              ];
+          
+              const choices = [
+                "Very Bad",
+                "Bad",
+                "Neutral",
+                "Good",
+                "Very Good"
+              ];
+          
+              const questionContainer = document.getElementById('questions-container');
+              const moodResult = document.getElementById('moodResult');
+              
+              // Function to shuffle array and pick random items
+              function getRandomQuestions(arr, num) {
+                const shuffled = arr.sort(() => 0.5 - Math.random());
+                return shuffled.slice(0, num);
+              }
+          
+              // Generate 4 random questions and add them to the modal
+              const randomQuestions = getRandomQuestions(questions, 4);
+              randomQuestions.forEach((question, index) => {
+                questionContainer.innerHTML += `
+                  <div class="mb-3">
+                    <label class="form-label">${question}</label>
+                    <div class="form-check">
+                      ${choices.map((choice, i) => `
+                        <input class="form-check-input" type="radio" name="answer${index}" id="choice${index}-${i}" value="${choice}" required>
+                        <label class="form-check-label" for="choice${index}-${i}">
+                          ${choice}
+                        </label>
+                      `).join('<br>')}
+                    </div>
+                  </div>
+                `;
+              });
+          
+              // Handle form submission
+              document.getElementById('moodCheckInForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+          
+                // Calculate mood score based on answers
+                let totalScore = 0;
+                document.querySelectorAll('[name^="answer"]').forEach((input) => {
+                  if (input.checked) {
+                    switch (input.value) {
+                      case 'Very Bad':
+                        totalScore += 1;
+                        break;
+                      case 'Bad':
+                        totalScore += 2;
+                        break;
+                      case 'Neutral':
+                        totalScore += 3;
+                        break;
+                      case 'Good':
+                        totalScore += 4;
+                        break;
+                      case 'Very Good':
+                        totalScore += 5;
+                        break;
+                    }
+                  }
+                });
+          
+                // Calculate the average score and ensure it is between 1 and 5
+                const moodScore = Math.min(Math.max(Math.round(totalScore / 4), 1), 5);
+                let moodEmoji = '';
+          
+                if (moodScore <= 2) moodEmoji = '😢';
+                else if (moodScore <= 3) moodEmoji = '😐';
+                else moodEmoji = '😊';
+          
+                moodResult.textContent = `Your mood score is ${moodScore}/5 ${moodEmoji}`;
+              });
+            });
+          </script>
+          
+  </body>
+</html>

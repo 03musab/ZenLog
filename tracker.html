@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleep Tracker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="tracker.css">
+    <style>
+        .header {
+            background: linear-gradient(90deg, rgba(34, 193, 195, 1) 0%, rgba(253, 187, 45, 1) 100%);
+            color: #fff;
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .card {
+            border-radius: 10px;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            border: none;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+        }
+
+        .btn-info {
+            background-color: #17a2b8;
+            border: none;
+        }
+
+        .btn-info:hover {
+            background-color: #117a8b;
+        }
+
+        .btn-warning {
+            background-color: #ffc107;
+            border: none;
+        }
+
+        .btn-warning:hover {
+            background-color: #e0a800;
+        }
+
+        /* Footer */
+        .dashboard-footer {
+            background-color: #373a47;
+            color: #fff;
+            padding: 20px;
+        }
+
+        .dashboard-footer a {
+            color: #aaa;
+            text-decoration: none;
+        }
+
+        .dashboard-footer a:hover {
+            color: #fff;
+        }
+
+        .btn-back {
+            background-color: #fa564a;
+            color: #000000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .btn-back:hover {
+            background-color: #fa9797;
+        }
+
+        .container1 {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        input[type="number"] {
+            padding: 10px;
+            font-size: 16px;
+            width: 200px;
+            margin-bottom: 20px;
+            text-align: center;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .suggestion,
+        .solution {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8d7da;
+            color: #721c24;
+            border-radius: 5px;
+            display: none;
+        }
+
+        textarea {
+            width: 80%;
+            height: 100px;
+            margin-top: 10px;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+       
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <h1>Sleep Tracker</h1>
+        <p>Monitor your sleep patterns to improve overall mental health.</p>
+        <div class="container text-center mb-4"></div>
+        <a href="dashboard.html" class="btn btn-back">Back to Dashboard</a>
+        </div>
+    </header>
+
+<section class="container my-5">
+    <div class="col-md">
+        <div class="card shadow-sm">
+            <div class="card-body">        
+                <h2>Sleep Tracker</h2>
+        <form id="sleepForm">
+            <div class="mb-3">
+                <label for="age" class="form-label">Your Age</label>
+                <input type="number" class="form-control" id="age" name="age" required>
+            </div>
+            <div class="mb-3">
+                <label for="hoursSlept" class="form-label">Hours Slept Last Night</label>
+                <input type="number" step="0.1" class="form-control" id="hoursSlept" name="hoursSlept" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+</section>
+        <!-- Modal for YouTube Suggestions -->
+        <div class="modal fade" id="suggestionsModal" tabindex="-1" aria-labelledby="suggestionsModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="suggestionsModalLabel">Suggestions for Better Sleep</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                    
+                        <h6>YouTube Recommendations:</h6>
+                        <ul id="videoSuggestions">
+                            <!-- YouTube suggestions will be dynamically added here -->
+                        </ul>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="container my-5">
+        <!-- Wake-Up Mood Reflection -->
+        <div class="col-md">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Wake-Up Mood Reflection</h5>
+                    <p>After logging your sleep, tell us how you feel when you wake up:</p>
+                    <select id="moodSelect" class="form-select">
+                        <option value="">Select your mood...</option>
+                        <option value="1">😞 Tired</option>
+                        <option value="2">😐 Neutral</option>
+                        <option value="3">😊 Refreshed</option>
+                    </select>
+                    <button class="btn btn-primary mt-3" onclick="logMood()">Log Mood</button>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+
+    <section class="container my-5">
+        <div class="row g-4">
+            <!-- Personalized Recommendations -->
+            <div class="col-md-6">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">Personalized Recommendations</h5>
+                        <p>Try to avoid caffeine in the evening and establish a relaxing bedtime routine.</p>
+                        <button class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#recommendationsModal">View More Tips</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Educational Content -->
+            <div class="col-md-6">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">Educational Content</h5>
+                        <p>Learn more about sleep hygiene and strategies to improve your sleep quality.</p>
+                        <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#educationalModal">Read
+                            Articles</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modals for Additional Content -->
+    <!-- Recommendations Modal -->
+    <div class="modal fade" id="recommendationsModal" tabindex="-1" aria-labelledby="recommendationsModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="recommendationsModalLabel">More Tips for Better Sleep</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Here are more tips to help you achieve better sleep:</p>
+                    <ul>
+                        <li>Avoid screens before bedtime</li>
+                        <li>Maintain a consistent sleep schedule</li>
+                        <li>Create a relaxing bedtime routine</li>
+                        <li>Limit caffeine and alcohol intake</li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Educational Content Modal -->
+    <div class="modal fade" id="educationalModal" tabindex="-1" aria-labelledby="educationalModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="educationalModalLabel">Educational Articles on Sleep</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Read these articles to improve your understanding of sleep hygiene:</p>
+                    <ul>
+                        <li><a href="https://example.com/sleep-hygiene" target="_blank">The Basics of Sleep Hygiene</a>
+                        </li>
+                        <li><a href="https://example.com/healthy-sleep-habits" target="_blank">Healthy Sleep Habits</a>
+                        </li>
+                        <li><a href="https://example.com/overcoming-insomnia" target="_blank">Overcoming Insomnia</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Footer -->
+    <footer class="dashboard-footer text-center py-4">
+        <p>&copy; 2024 ZenLog. All Rights Reserved.</p>
+        <div class="footer-links">
+            <a href="#" style="
+              color: #ffffff;
+              text-decoration: none;
+              margin: 0 10px;
+              font-weight: bold;
+            ">Privacy Policy</a>
+            |
+            <a href="#" style="
+              color: #ffffff;
+              text-decoration: none;
+              margin: 0 10px;
+              font-weight: bold;
+            ">Terms of Service</a>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <script>
+        //form
+        document.getElementById('sleepForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+        
+            const age = parseInt(document.getElementById('age').value);
+            const hoursSlept = parseFloat(document.getElementById('hoursSlept').value);
+        
+            let sleepTarget = 0;
+        
+            if (age >= 65) {
+                sleepTarget = 7.5; // Midpoint of 7-8 hours
+            } else if (age >= 18) {
+                sleepTarget = 8; // Midpoint of 7-9 hours
+            } else if (age >= 14) {
+                sleepTarget = 9; // Midpoint of 8-10 hours
+            } else if (age >= 6) {
+                sleepTarget = 10; // Midpoint of 9-11 hours
+            }
+        
+            if (hoursSlept < (sleepTarget - 1)) {
+                const reason = prompt("Why didn't you sleep well?");
+                showSuggestionsModal(reason);
+            } else if (hoursSlept >= (sleepTarget - 1) && hoursSlept <= (sleepTarget + 1)) {
+                alert("Congratulations! You had a good sleep!");
+            } else if (hoursSlept > (sleepTarget + 1)) {
+                alert("Congratulations! You had a great sleep!");
+            }
+        
+                 // Store the data in the database using an API call
+    fetch('save_sleep_data.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: `age=${age}&hoursSlept=${hoursSlept}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log('Data saved successfully');
+        } else {
+            console.log('Failed to save data');
+        }
+    })
+    .catch(error => console.error('Error:', error));
+});
+    
+function showSuggestionsModal(reason) {
+    const videoSuggestions = {
+        stress: ['https://youtu.be/j5Sl8LyI7k8?si=xQi-jx8PxN7H-P6R', 'https://www.youtube.com/watch?v=IpPrbDZ6Xuo'],
+        noise: ['https://youtu.be/HqFLKfykQr0?si=PrOxyKpfaCmFF-s6', 'https://youtu.be/K9xMlXMFFWc?si=l832aj33j9clkeEk'],
+        mobile: ['https://youtu.be/_1V0rDSTC9I?si=ndjjFEfxHFpTHdac', 'https://youtu.be/9bgwwXIfkUs?si=PBSAy7lEOEFRX9Hg', 'https://youtu.be/NU9RP8nNmO0?si=Ypv2gBeUxYNKGCwo'],
+        smartphone: ['https://youtu.be/_1V0rDSTC9I?si=ndjjFEfxHFpTHdac', 'https://youtu.be/9bgwwXIfkUs?si=PBSAy7lEOEFRX9Hg', 'https://youtu.be/NU9RP8nNmO0?si=Ypv2gBeUxYNKGCwo'],
+        anxiety: ['https://youtu.be/9EkdVeq8h9s?si=K7DKvtldsTyow-mD', 'https://youtu.be/LjseVLM-86k?si=SCL7lp9RHSI5ORxz'],
+        caffeine: ['https://youtube.com/shorts/SWn-_g4yBRk?si=K-bxATX8OG88xoV5', 'https://youtu.be/fCU5tzqeLCs?si=3WEqHxKpehlXsIA4'],
+        cofee: ['https://youtube.com/shorts/SWn-_g4yBRk?si=K-bxATX8OG88xoV5', 'https://youtu.be/fCU5tzqeLCs?si=3WEqHxKpehlXsIA4'],
+        temperature: ['https://youtu.be/CnFW5nA6j3A?si=wqeTP6iuYLgaSWxZ'],
+        light: ['https://youtube.com/shorts/8zngcByzxqk?si=JGqoph5mjEKwT_Ro', 'https://youtu.be/qlLcy09zxes?si=T18OYhGIt37VRled'],
+        sleepdisorder: ['https://youtu.be/KaQFVaWcpow?si=X_VfMWjfdxdNjs5g'],
+        diet: ['https://youtu.be/xaP75l0xFys?si=TWMGzxdvgtWvqlY_', 'https://youtu.be/MHJ1QJroGVE?si=l32Ayk5z1jQRVaMT','https://youtu.be/9DO-dJJaGFY?si=7azb4C9MdjP3PJzj'],
+        medication: ['https://youtu.be/yTbb30pJGpA?si=aINksvYGoGFjui4v'],
+        exercise: ['https://youtu.be/fOcJCXZwW-I?si=DA9VS3_8ewTXo-Ow', 'https://youtu.be/KIlFPzGvbCM?si=43bNLHiflbdmOKTU'],
+        schedule: ['https://youtu.be/iMfsa7ntJZE?si=ySveMc3JcJtYE97F'],
+        sadness: ['https://youtu.be/92Oc8-lnx4k?si=d33D5D66R1bnY6BD', 'https://youtu.be/8WtAA8daRr8?si=ColtokdtW0rTW2Ky','https://youtu.be/Jjyx6cMdu7M?si=wz7cBClbd3jphkZt'],
+        digestion: ['https://youtu.be/HLX2KLjv3is?si=op2uqglix7QuFvr0', 'https://youtu.be/2FAMM7ncu_k?si=q0UY6KGO9RQGPvIi'],
+        hormonal: ['https://youtu.be/nLEa7APcHCA?si=dUWMAzIUlepk3ThD', 'https://youtu.be/iTylNzxXp04?si=3qI13yYM2HBtyqQn','https://youtu.be/cSqAPaKbOnU?si=p6af14dJtlmcfLKl'],
+        depression: ['https://youtu.be/92Oc8-lnx4k?si=d33D5D66R1bnY6BD', 'https://youtu.be/8WtAA8daRr8?si=ColtokdtW0rTW2Ky','https://youtu.be/Jjyx6cMdu7M?si=wz7cBClbd3jphkZt']
+    };
+
+    let suggestions = videoSuggestions.anxiety; // default suggestions
+
+    if (reason.includes('stress')) {
+        suggestions = videoSuggestions.stress;
+    } else if (reason.includes('noise')) {
+        suggestions = videoSuggestions.noise;
+    } else if (reason.includes('mobile') || reason.includes('smartphone')) {
+        suggestions = videoSuggestions.mobile; // or use mobile or smartphone, they point to the same videos
+    } else if (reason.includes('anxiety')) {
+        suggestions = videoSuggestions.anxiety;
+    } else if (reason.includes('caffeine')) {
+        suggestions = videoSuggestions.caffeine;
+    } else if (reason.includes('temperature')) {
+        suggestions = videoSuggestions.temperature;
+    } else if (reason.includes('light')) {
+        suggestions = videoSuggestions.light;
+    } else if (reason.includes('sleep disorder')) {
+        suggestions = videoSuggestions.sleep_disorder;
+    } else if (reason.includes('diet')) {
+        suggestions = videoSuggestions.diet;
+    } else if (reason.includes('medication')) {
+        suggestions = videoSuggestions.medication;
+    } else if (reason.includes('exercise')) {
+        suggestions = videoSuggestions.exercise;
+    } else if (reason.includes('schedule')) {
+        suggestions = videoSuggestions.schedule;
+    } else if (reason.includes('sadness')) {
+        suggestions = videoSuggestions.sadness;
+    } else if (reason.includes('digestion')) {
+        suggestions = videoSuggestions.digestion;
+    } else if (reason.includes('hormonal')) {
+        suggestions = videoSuggestions.hormonal;
+    } else if (reason.includes('depression')) {
+        suggestions = videoSuggestions.depression;
+    } else if (reason.includes('cofee')) {
+        suggestions = videoSuggestions.cofee;
+    }
+
+    const suggestionsList = document.getElementById('videoSuggestions');
+    suggestionsList.innerHTML = ''; // Clear existing suggestions
+
+    suggestions.forEach(video => {
+        const listItem = document.createElement('li');
+        listItem.innerHTML = `<a href="${video}" target="_blank">${video}</a>`;
+        suggestionsList.appendChild(listItem);
+    });
+
+    const suggestionsModal = new bootstrap.Modal(document.getElementById('suggestionsModal'));
+    suggestionsModal.show();
+}
+
+
+   
+        // Log Wake-Up Mood Functionality
+        function logMood() {
+            const mood = document.getElementById('moodSelect').value;
+            if (mood) {
+                let moodMessage = '';
+                if (mood == '1') {
+                    moodMessage = 'You woke up feeling tired.';
+                } else if (mood == '2') {
+                    moodMessage = 'You woke up feeling neutral.';
+                } else if (mood == '3') {
+                    moodMessage = 'You woke up feeling refreshed.';
+                }
+                alert(moodMessage);
+            } else {
+                alert('Please select your wake-up mood.');
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>

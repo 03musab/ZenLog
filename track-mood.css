@@ -1,0 +1,85 @@
+/* General Body Styling */
+body {
+    background-color: #f4f6f9;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header Section */
+.track-mood-header {
+    background: linear-gradient(90deg, #6e4ec8, #c9ccff);
+    color: #fff;
+    padding: 60px 0;
+}
+
+.track-mood-header h1 {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.track-mood-header p {
+    font-size: 1.2rem;
+    margin-top: 15px;
+}
+
+/* Mood Scale */
+.mood-slider {
+    margin: 0 auto;
+    max-width: 500px;
+    padding: 20px;
+    background-color: #000000; /* Dark background for mood slider */
+    color: #fff; /* Light text color */
+    border-radius: 25px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Optional shadow for better visibility */
+    text-align: center;
+}
+
+.mood-slider .form-range {
+    width: 100%;
+}
+
+.mood-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.mood-labels span {
+    font-size: 1.5rem;
+}
+
+/* Reflections */
+.reflections form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Mood Chart */
+#moodChart {
+    height: 400px;
+    max-width: 100%;
+}
+
+/* Buttons */
+.btn-info, .btn-primary, .btn-success {
+    margin: 5px;
+}
+
+/* Footer */
+.track-mood-footer {
+    background-color: #343a40;
+    color: #fff;
+    padding: 20px 0;
+}
+
+.track-mood-footer p {
+    margin: 0;
+}
+.achieved-gif {
+    width: 200px; /* Adjust as needed */
+    height: auto;
+    display: none; /* Initially hidden */
+    margin-left: 10px; /* Adjust as needed */
+}

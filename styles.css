@@ -1,0 +1,108 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #121212;
+    color: #ffffff;
+    line-height: 1.6;
+}
+
+/* Header Styles */
+.header-bg {
+    background: linear-gradient(145deg, #0a0f0d, #00213b);
+    min-height: 250px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Section Styles */
+section {
+    padding: 40px 0;
+}
+
+.container {
+    width: 85%;
+    margin: 0 auto;
+}
+
+.card {
+    background-color: #222831;
+    border: none;
+}
+
+.card-title {
+    color: #00adb5;
+}
+
+.card-text {
+    color: #eeeeee;
+}
+
+.btn-primary {
+    background-color: #00adb5;
+    border: none;
+}
+
+.btn-success {
+    background-color: #393e46;
+    border: none;
+}
+
+/* Link Styles */
+a {
+    color: #00adb5;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Footer Styles */
+footer {
+    background-color: #181818;
+    color: #626567;
+    padding: 20px;
+}
+
+/* Custom class for the interactive card layout */
+.hive-layout .hive-row {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.feature-card {
+    background: #393e46;
+    padding: 20px;
+    border-radius: 8px;
+    width: 30%;
+}
+
+.feature-card h3 {
+    color: #00adb5;
+}
+
+.feature-card p {
+    color: #e0e0e0;
+}
+
+@media (max-width: 768px) {
+    .hive-row {
+        flex-direction: column;
+    }
+
+    .feature-card {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+}
