@@ -1,1 +1,1 @@
-Your Mental Health, Tracked and Empowered
+<b>*Your Mental Health, Tracked and Empowered*</b>
