@@ -4,7 +4,7 @@ session_start(); // Start the session to access user_id
 // Database configuration
 $servername = "localhost"; // Change if needed
 $username = "root"; // Change if needed
-$password = ""; // Change if needed
+$password = "musab"; // Change if needed
 $dbname = "zenlog";
 
 // Create connection

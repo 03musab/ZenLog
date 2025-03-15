@@ -2,7 +2,7 @@
 $host = 'localhost';
 $db = 'zenlog';
 $user = 'root';
-$pass = '';
+$pass = 'musab';
 $conn = new mysqli($host, $user, $pass, $db);
 
 if ($conn->connect_error) {

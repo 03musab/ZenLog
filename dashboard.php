@@ -5,7 +5,7 @@ ini_set('display_errors', 1);
 
 $servername = "localhost";
 $username = "root";
-$password = "";
+$password = "musab";
 $dbname = "zenlog";
 
 $conn = new mysqli($servername, $username, $password, $dbname);

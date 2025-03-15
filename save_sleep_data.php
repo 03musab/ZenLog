@@ -3,7 +3,7 @@
 $host = 'localhost';
 $db   = 'zenlog';
 $user = 'root';  // Replace with your DB username
-$pass = '';      // Replace with your DB password
+$pass = 'musab';      // Replace with your DB password
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";

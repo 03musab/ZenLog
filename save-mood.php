@@ -6,7 +6,7 @@ ini_set('display_errors', 1);
 // Database connection parameters
 $servername = "localhost";
 $username = "root";
-$password = "";
+$password = "musab";
 $dbname = "zenlog";
 
 // Create connection
